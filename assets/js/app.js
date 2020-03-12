@@ -23,7 +23,8 @@
 
   /**
    * Return the markup for the UI based on the current state
-   * @param {Object} props The state data
+   * @param  {Object} props The state data
+   * @return {String}       An HTML string
    */
   function template (props) {
 
@@ -39,7 +40,7 @@
 
   /**
    * Build an HTML string for a list item
-   * @param  {*}      item  The list item
+   * @param  {String}      item  The list item
    * @param  {Number} index The item's index in the array
    * @return {String}       An HTML string
    */
@@ -110,9 +111,6 @@
   //
   // Init
   //
-
-  // Log the Reef instance to the console
-  console.log(app);
 
   // Render the component
   app.render();
