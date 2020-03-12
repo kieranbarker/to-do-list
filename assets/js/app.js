@@ -41,8 +41,8 @@
   /**
    * Build an HTML string for a list item
    * @param  {String}      item  The list item
-   * @param  {Number} index The item's index in the array
-   * @return {String}       An HTML string
+   * @param  {Number}      index The item's index in the array
+   * @return {String}            An HTML string
    */
   function buildListItem (item, index) {
 
