@@ -16,6 +16,9 @@
     template: template
   });
 
+  // The ID to use with localStorage
+  var storageID = "todos";
+
 
   //
   // Functions
@@ -132,13 +135,34 @@
 
   }
 
+  /**
+   * Save the current state of the app to localStorage
+   */
+  function saveItems () {
+    localStorage.setItem(storageID, JSON.stringify(app.getData()));
+  }
+
+  /**
+   * Render saved list items when the page loads
+   */
+  function loadItems () {
+
+    // Check for saved data in localStorage
+    var saved = localStorage.getItem(storageID);
+    var data = saved ? JSON.parse(saved) : { listItems: [] };
+
+    // Update the state and run an initial render
+    app.setData(data);
+
+  }
+
 
   //
   // Init
   //
 
-  // Render the component
-  app.render();
+  // Render the initial UI
+  loadItems();
 
   // Add list items
   form.addEventListener("submit", addItem);
@@ -148,5 +172,8 @@
 
   // Delete list items
   app.elem.addEventListener("click", deleteItem);
+
+  // Save list items
+  app.elem.addEventListener("render", saveItems);
 
 })();
