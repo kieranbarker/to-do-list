@@ -42,8 +42,12 @@ button {
   margin-right: .5em;
 }
 
-ul {
+ul,
+[data-delete] {
   padding: 0;
+}
+
+ul {
   margin: 0;
   list-style: none;
 }
@@ -55,4 +59,11 @@ li label {
 
 :checked + label {
   text-decoration: line-through;
+}
+
+[data-delete] {
+  border: none;
+  margin-left: 1em;
+  background: none;
+  font-size: 80%;
 }
