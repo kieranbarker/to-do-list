@@ -110,7 +110,7 @@
 
   /**
    * Delete an old list item
-   * @param {Object} event The event object
+   * @param {Object} event The Event interface
    */
   function deleteItem (event) {
 
