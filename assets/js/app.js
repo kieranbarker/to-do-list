@@ -54,6 +54,7 @@
       "<li>" +
         "<input id='" + inputID + "' type='checkbox'" + (item.done ? " checked" : "") + ">" +
         "<label for='" + inputID + "'>" + item.description + "</label>" +
+        "<button type='button' aria-label='Delete' data-delete='" + index + "'>🗑</button>" +
       "</li>"
     );
 
@@ -107,6 +108,33 @@
 
   }
 
+  /**
+   * Delete an old list item
+   * @param {Object} event The event object
+   */
+  function deleteItem (event) {
+
+    // Get the index of the item to be removed
+    var index = event.target.getAttribute("data-delete");
+    if (!index) return;
+
+    // Get an immutable clone of the current state
+    var data = app.getData();
+
+    // Get the index of the item to be removed
+    var index = event.target.getAttribute("data-delete");
+
+    // Confirm with the user before deleting
+    if (!confirm("Are you sure you want to delete this item? This cannot be reversed.")) return;
+
+    // Remove this list item from the data
+    data.listItems.splice(index, 1);
+
+    // Update the state and render the UI
+    app.setData({ listItems: data.listItems });
+
+  }
+
 
   //
   // Init
@@ -120,5 +148,8 @@
 
   // Toggle list items' completion status
   app.elem.addEventListener("change", toggleItem);
+
+  // Delete list items
+  app.elem.addEventListener("click", deleteItem);
 
 })();
