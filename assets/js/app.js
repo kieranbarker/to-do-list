@@ -10,7 +10,7 @@
   var form = document.querySelector("#add-todos");
   var input = form.querySelector("#new-todo");
 
-  // The Reef instance for the component
+  // Create a Reef instance for the component
   var app = new Reef(document.querySelector("#app"), {
     data: { listItems: [] },
     template: template
@@ -23,7 +23,8 @@
 
   /**
    * Return the markup for the UI based on the current state
-   * @param {Object} props The state data
+   * @param  {Object} props The state data
+   * @return {String}       An HTML string
    */
   function template (props) {
 
@@ -39,11 +40,11 @@
 
   /**
    * Build an HTML string for a list item
-   * @param  {*}      item  The list item
+   * @param  {String}      item  The list item
    * @param  {Number} index The item's index in the array
    * @return {String}       An HTML string
    */
-  function buildListItem(item, index) {
+  function buildListItem (item, index) {
 
     // The ID for the input
     var inputID = "item-" + index;
@@ -110,9 +111,6 @@
   //
   // Init
   //
-
-  // Log the Reef instance to the console
-  console.log(app);
 
   // Render the component
   app.render();
