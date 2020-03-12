@@ -121,9 +121,6 @@
     // Get an immutable clone of the current state
     var data = app.getData();
 
-    // Get the index of the item to be removed
-    var index = event.target.getAttribute("data-delete");
-
     // Confirm with the user before deleting
     if (!confirm("Are you sure you want to delete this item? This cannot be reversed.")) return;
 
