@@ -38,6 +38,10 @@ button {
   font: inherit;
 }
 
+button {
+  margin-left: .25em;
+}
+
 [type="checkbox"] {
   margin-right: .5em;
 }
@@ -65,4 +69,8 @@ li label {
   border: none;
   margin-left: .5em;
   background: none;
+}
+
+.flex {
+  display: flex;
 }
