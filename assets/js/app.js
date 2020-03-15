@@ -161,7 +161,7 @@
   loadItems();
 
   // Add list items
-  form.addEventListener("submit", addItem);
+  app.elem.addEventListener("submit", addItem);
 
   // Toggle list items' completion status
   app.elem.addEventListener("change", toggleItem);
