@@ -6,10 +6,6 @@
   // Variables
   //
 
-  // Get the form and input elements
-  var form = document.querySelector("#add-todos");
-  var input = form.querySelector("#new-todo");
-
   // Create a Reef instance for the component
   var app = new Reef(document.querySelector("#app"), {
     data: { listItems: [] },
