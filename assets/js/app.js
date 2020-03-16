@@ -251,7 +251,7 @@
 
     // Check for saved data in localStorage
     var saved = localStorage.getItem(storageID);
-    var data = saved ? JSON.parse(saved) : { listItems: [] };
+    var data = saved ? JSON.parse(saved) : {};
 
     // Update the state and run an initial render
     app.setData(data);
