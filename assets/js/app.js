@@ -8,7 +8,21 @@
 
   // Create a Reef instance for the component
   var app = new Reef(document.querySelector("#app"), {
-    data: { listItems: [] },
+    /* data: {
+      lists: [
+        {
+          name: "Shopping List",
+          items: [
+            {
+              name: "Ketchup",
+              done: false
+            }
+          ]
+        }
+      ],
+      listID: 0
+    }, */
+    data: {},
     template: template
   });
 
@@ -165,8 +179,8 @@
       // Add the list item to the list
       data.lists[data.listID].items.push({
         name: input.value,
-      done: false
-    });
+        done: false
+      });
     } else if (event.target.id === "add-lists") {
       // Add the list to the data
       data.lists.push({
@@ -219,7 +233,7 @@
     if (!confirm("Are you sure you want to delete this" + (data.listID ? "list" : "item") + "? This cannot be reversed.")) return;
 
     if (data.listID) {
-    // Remove this list item from the data
+      // Remove this list item from the data
       data.lists[data.listID].items.splice(index, 1);
     } else {
       // Remove this list from the data
@@ -232,20 +246,34 @@
   }
 
   /**
-   * Save the current state of the app to localStorage
+   * Handle Reef's render events
    */
-  function saveItems () {
+  function handleRender () {
+
+    // Save state to localStorage
     localStorage.setItem(storageID, JSON.stringify(app.getData()));
+
+    // If item is being edited, bring form into focus
+    var editField = document.querySelector("#new-item, #new-list");
+    if (editField) editField.focus();
+
   }
 
   /**
-   * Render saved list items when the page loads
+   * Render saved lists when the page loads
    */
-  function loadItems () {
+  function loadLists () {
 
     // Check for saved data in localStorage
     var saved = localStorage.getItem(storageID);
-    var data = saved ? JSON.parse(saved) : {};
+    var data = saved ? JSON.parse(saved) : { lists: [] };
+
+    // Remove any fields that were being edited
+    data.edit = null;
+
+    // Get the current view
+    var list = getParams().list;
+    data.listID = list;
 
     // Update the state and run an initial render
     app.setData(data);
@@ -258,7 +286,7 @@
   //
 
   // Render the initial UI
-  loadItems();
+  loadLists();
 
   // Add list items
   app.elem.addEventListener("submit", addItemOrList);
@@ -270,6 +298,6 @@
   app.elem.addEventListener("click", deleteItemOrList);
 
   // Save list items
-  app.elem.addEventListener("render", saveItems);
+  app.elem.addEventListener("render", handleRender);
 
 })();
