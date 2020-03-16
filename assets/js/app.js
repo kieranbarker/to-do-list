@@ -197,8 +197,8 @@
     var index = event.target.id.slice(-1);
 
     // Update the state and render the UI
-    data.listItems[index].done = event.target.checked;
-    app.setData({ listItems: data.listItems });
+    data.lists[data.listID].items[index].done = event.target.checked;
+    app.setData({ lists: data.lists });
 
   }
 
