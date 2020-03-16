@@ -147,10 +147,13 @@
    * Add a new list item
    * @param {Object} event The Event interface
    */
-  function addItem (event) {
+  function addItemOrList (event) {
 
     // Prevent the default submission behaviour
     event.preventDefault();
+
+    // Get the input for this form
+    var input = event.target.querySelector("input");
 
     // Do nothing if the input is empty
     if (!input.value.trim()) return;
@@ -158,14 +161,22 @@
     // Get an immutable clone of the current state
     var data = app.getData();
 
-    // Add the list item to the data
-    data.listItems.push({
-      description: input.value,
+    if (event.target.id === "add-items") {
+      // Add the list item to the list
+      data.lists[data.listID].items.push({
+        name: input.value,
       done: false
     });
+    } else if (event.target.id === "add-lists") {
+      // Add the list to the data
+      data.lists.push({
+        name: input.value,
+        items: []
+      });
+    }
 
     // Update the state and render the UI
-    app.setData({ listItems: data.listItems });
+    app.setData(data.lists);
 
     // Clear the input and return focus to it
     input.value = "";
@@ -245,7 +256,7 @@
   loadItems();
 
   // Add list items
-  app.elem.addEventListener("submit", addItem);
+  app.elem.addEventListener("submit", addItemOrList);
 
   // Toggle list items' completion status
   app.elem.addEventListener("change", toggleItem);
