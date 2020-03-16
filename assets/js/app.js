@@ -204,6 +204,9 @@
    */
   function toggleItem (event) {
 
+    // Bail if the event target isn't a checkbox
+    if (event.target.type !== "checkbox") return;
+
     // Get an immutable clone of the current state
     var data = app.getData();
 
