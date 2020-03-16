@@ -144,7 +144,7 @@
   }
 
   /**
-   * Add a new list item
+   * Add a new list item or list
    * @param {Object} event The Event interface
    */
   function addItemOrList (event) {
