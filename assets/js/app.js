@@ -144,28 +144,6 @@
   }
 
   /**
-   * Build an HTML string for a list item
-   * @param  {String}      item  The list item
-   * @param  {Number}      index The item's index in the array
-   * @return {String}            An HTML string
-   */
-  function buildListItem (item, index) {
-
-    // The ID for the input
-    var inputID = "item-" + index;
-
-    // Return an HTML string for the list item
-    return (
-      "<li>" +
-        "<input id='" + inputID + "' type='checkbox'" + (item.done ? " checked" : "") + ">" +
-        "<label for='" + inputID + "'>" + item.description + "</label>" +
-        "<button type='button' aria-label='Delete' data-delete='" + index + "'>🗑</button>" +
-      "</li>"
-    );
-
-  }
-
-  /**
    * Add a new list item
    * @param {Object} event The Event interface
    */
