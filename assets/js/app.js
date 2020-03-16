@@ -190,7 +190,7 @@
     }
 
     // Update the state and render the UI
-    app.setData(data.lists);
+    app.setData({ lists: data.lists });
 
     // Clear the input and return focus to it
     input.value = "";
