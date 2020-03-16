@@ -54,13 +54,92 @@
    */
   function template (props) {
 
-    // If there are no list items, show a message
-    if (props.listItems.length < 1) {
-      return "<p>You haven't added any list items yet. Why not start now?</p>";
+    // If there's a list ID, show that list
+    if (props.listID !== null && props.listID !== undefined) {
+      return getItemsTemplate(props);
+    }
+
+    // Otherwise, show all lists
+    return getListsTemplate(props);
+
+  }
+
+  /**
+   * Get the template for the items view
+   * @param {Object} props The state data
+   */
+  function getItemsTemplate (props) {
+
+    // Get the active list
+    var index = getParams().list;
+    var list = props.lists[index];
+
+    // The "add items" form
+    var form =
+      "<form id='add-items'>" +
+        "<label for='new-item'>What do you want to do?</label>" +
+        "<div class='flex'>" +
+          "<input id='new-item' type='text' autofocus>" +
+          "<button type='submit'>Add Item</button>" +
+        "</div>" +
+      "</form>";
+
+    // If there are no items, ask the user to add some
+    if (list.items.length < 1) {
+      return form + "<p>You haven't added any list items. Add some using the form above.</p>";
     }
 
     // Otherwise, show the list items
-    return "<ul>" + props.listItems.map(buildListItem).join("") + "</ul>";
+    return form + "<ul>" + list.items.map(function(item, index) {
+
+      var inputID = "item-" + index;
+
+      return (
+        "<li>" +
+          "<input id='" + inputID + "' type='checkbox'>" +
+          "<label for='" + inputID + "'>" + item.name + "</label>" +
+          "<button class='pa0 bn bg-transparent' type='button' aria-label='Edit' data-edit='" + index + "'>✏️</button>" +
+          "<button class='pa0 bn bg-transparent' type='button' aria-label='Delete' data-delete-item='" + index + "'>🗑</button>" +
+        "</li>"
+      );
+
+    }).join("") + "</ul>";
+
+  }
+
+  /**
+   * Get the template for the lists view
+   * @param {Object} props The state data
+   */
+  function getListsTemplate (props) {
+
+    // The "add lists" form
+    var form =
+      "<form id='add-lists'>" +
+        "<label for='new-list'>Create a new to-do list</label>" +
+          "<div class='flex'>" +
+            "<input id='new-list' type='text' autofocus>" +
+            "<button type='submit'>Create List</button>" +
+          "</div>" +
+      "</form>";
+
+    // If there are no lists, ask the user to add some
+    if (props.lists.length < 1) {
+      return form + "<p>You haven't created any lists. Add some using the form above.</p>";
+    }
+
+    // Otherwise, show the lists
+    return form + "<ul>" + props.lists.map(function(list, index) {
+
+      return (
+        "<li>" +
+          "<a href='?list=" + index + "'>" + list.name + "</a>" +
+          "<button class='pa0 bn bg-transparent' type='button' aria-label='Edit' data-edit='" + index + "'>✏️</button>" +
+          "<button class='pa0 bn bg-transparent' type='button' aria-label='Delete' data-delete-list='" + index + "'>🗑</button>" +
+        "</li>"
+      );
+
+    }).join("") + "</ul>";
 
   }
 
