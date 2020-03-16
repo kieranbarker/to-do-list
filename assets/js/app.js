@@ -99,7 +99,7 @@
           "<input id='" + inputID + "' type='checkbox'>" +
           "<label for='" + inputID + "'>" + item.name + "</label>" +
           "<button class='pa0 bn bg-transparent' type='button' aria-label='Edit' data-edit='" + index + "'>✏️</button>" +
-          "<button class='pa0 bn bg-transparent' type='button' aria-label='Delete' data-delete-item='" + index + "'>🗑</button>" +
+          "<button class='pa0 bn bg-transparent' type='button' aria-label='Delete' data-delete='" + index + "'>🗑</button>" +
         "</li>"
       );
 
@@ -135,7 +135,7 @@
         "<li>" +
           "<a href='?list=" + index + "'>" + list.name + "</a>" +
           "<button class='pa0 bn bg-transparent' type='button' aria-label='Edit' data-edit='" + index + "'>✏️</button>" +
-          "<button class='pa0 bn bg-transparent' type='button' aria-label='Delete' data-delete-list='" + index + "'>🗑</button>" +
+          "<button class='pa0 bn bg-transparent' type='button' aria-label='Delete' data-delete='" + index + "'>🗑</button>" +
         "</li>"
       );
 
@@ -203,12 +203,12 @@
   }
 
   /**
-   * Delete an old list item
+   * Delete an old item or list
    * @param {Object} event The Event interface
    */
-  function deleteItem (event) {
+  function deleteItemOrList (event) {
 
-    // Get the index of the item to be removed
+    // Get the index of the item/list to be removed
     var index = event.target.getAttribute("data-delete");
     if (!index) return;
 
@@ -216,13 +216,18 @@
     var data = app.getData();
 
     // Confirm with the user before deleting
-    if (!confirm("Are you sure you want to delete this item? This cannot be reversed.")) return;
+    if (!confirm("Are you sure you want to delete this" + (data.listID ? "list" : "item") + "? This cannot be reversed.")) return;
 
+    if (data.listID) {
     // Remove this list item from the data
-    data.listItems.splice(index, 1);
+      data.lists[data.listID].items.splice(index, 1);
+    } else {
+      // Remove this list from the data
+      data.lists.splice(index, 1);
+    }
 
     // Update the state and render the UI
-    app.setData({ listItems: data.listItems });
+    app.setData({ lists: data.lists });
 
   }
 
@@ -262,7 +267,7 @@
   app.elem.addEventListener("change", toggleItem);
 
   // Delete list items
-  app.elem.addEventListener("click", deleteItem);
+  app.elem.addEventListener("click", deleteItemOrList);
 
   // Save list items
   app.elem.addEventListener("render", saveItems);
