@@ -237,7 +237,7 @@
 
   /**
    * Edit an item or list
-   * @param {Event} event The Event interface
+   * @param {Object} event The Event interface
    */
   function editItemOrList (event) {
 
@@ -281,7 +281,7 @@
 
   /**
    * Handle click events
-   * @param {Event} event The Event interface
+   * @param {Object} event The Event interface
    */
   function handleClick (event) {
 
