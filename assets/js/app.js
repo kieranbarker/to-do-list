@@ -90,6 +90,8 @@
 
     // The "add items" form
     var form =
+      "<a href='index.html'>&larr; Back to lists</a>" +
+      "<h2>" + list.name + "</h2>" +
       "<form id='add-items'>" +
         "<label for='new-item'>What do you want to do?</label>" +
         "<div class='flex'>" +
