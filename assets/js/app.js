@@ -95,8 +95,8 @@
       "<form id='add-items'>" +
         "<label for='new-item'>What do you want to do?</label>" +
         "<div class='flex'>" +
-          "<input id='new-item' type='text' autofocus>" +
-          "<button type='submit'>Add Item</button>" +
+          "<input id='new-item' type='text' autofocus" + (props.edit ? " value='" + list.items[props.edit].name + "'" : "") + ">" +
+          "<button type='submit'>" + (props.edit ? "Save" : "Add") + " Item</button>" +
         "</div>" +
       "</form>";
 
@@ -134,8 +134,8 @@
       "<form id='add-lists'>" +
         "<label for='new-list'>Create a new to-do list</label>" +
           "<div class='flex'>" +
-            "<input id='new-list' type='text' autofocus>" +
-            "<button type='submit'>Create List</button>" +
+            "<input id='new-list' type='text' autofocus" + (props.edit ? " value='" + props.lists[props.edit].name + "'" : "") + ">" +
+            "<button type='submit'>" + (props.edit ? "Save" : "Create") + " List</button>" +
           "</div>" +
       "</form>";
 
@@ -178,21 +178,35 @@
     var data = app.getData();
 
     if (event.target.id === "add-items") {
-      // Add the list item to the list
-      data.lists[data.listID].items.push({
-        name: input.value,
-        done: false
-      });
+
+      if (data.edit) {
+        // Edit the list item
+        data.lists[data.listID].items[data.edit].name = input.value;
+      } else {
+        // Add the list item to the list
+        data.lists[data.listID].items.push({
+          name: input.value,
+          done: false
+        });
+      }
+
     } else if (event.target.id === "add-lists") {
-      // Add the list to the data
-      data.lists.push({
-        name: input.value,
-        items: []
-      });
+
+      if (data.edit) {
+        // Edit the list
+        data.lists[data.edit].name = input.value;
+      } else {
+        // Add the list to the data
+        data.lists.push({
+          name: input.value,
+          items: []
+        });
+      }
+
     }
 
     // Update the state and render the UI
-    app.setData({ lists: data.lists });
+    app.setData({ lists: data.lists, edit: null });
 
     // Clear the input and return focus to it
     input.value = "";
@@ -222,6 +236,21 @@
   }
 
   /**
+   * Edit an item or list
+   * @param {Event} event The Event interface
+   */
+  function editItemOrList (event) {
+
+    // Get the index of the item to be edited
+    var index = event.target.getAttribute("data-edit");
+    if (!index) return;
+
+    // Update the state and render the UI
+    app.setData({ edit: index });
+
+  }
+
+  /**
    * Delete an old item or list
    * @param {Object} event The Event interface
    */
@@ -246,7 +275,21 @@
     }
 
     // Update the state and render the UI
-    app.setData({ lists: data.lists });
+    app.setData({ lists: data.lists, edit: null });
+
+  }
+
+  /**
+   * Handle click events
+   * @param {Event} event The Event interface
+   */
+  function handleClick (event) {
+
+    // Edit items and lists
+    editItemOrList(event);
+
+    // Delete items and lists
+    deleteItemOrList(event);
 
   }
 
@@ -300,7 +343,7 @@
   app.elem.addEventListener("change", toggleItem);
 
   // Delete list items
-  app.elem.addEventListener("click", deleteItemOrList);
+  app.elem.addEventListener("click", handleClick);
 
   // Save list items
   app.elem.addEventListener("render", handleRender);
