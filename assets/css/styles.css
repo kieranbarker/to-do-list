@@ -74,3 +74,16 @@ li label {
 .flex {
   display: flex;
 }
+
+.pa0 {
+  padding: 0;
+}
+
+.bn {
+  border-style: none;
+  border-width: 0;
+}
+
+.bg-transparent {
+  background-color: transparent;
+}
